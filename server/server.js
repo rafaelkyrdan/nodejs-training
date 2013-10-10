@@ -1,22 +1,21 @@
 var http = require("http"),
     server = new http.Server(),
-    url = require('url'),
-    urlParsed;
+    url = require('url');
 
-server.listen(1337, "127.0.0.1");
+
 server.on("request", function (req, res) {
 
-    console.log(req.headers);
+    var urlParsed = url.parse(req.url, true);
+    debugger;
 
-
-    urlParsed = url.parse(req.url, true);
-    console.log(urlParsed);
-
-    if (urlParsed.pathname === "/echo" && urlParsed.query.message) {
+    if (req.method === "GET" && urlParsed.pathname === "/echo" && urlParsed.query.message) {
         res.end(urlParsed.query.message);
-    } else {
-        res.statusCode = 404;
-        res.end("Page not found");
+        return;
     }
-    
+
+    res.statusCode = 404;
+    res.end("Page not found");
+
 });
+
+server.listen(1337, "127.0.0.1");
