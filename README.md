@@ -9,7 +9,7 @@ and then I'll develop site based on these technologies. See list below.
 
 *What I use?*
 
-1. Nodejs
+1. Nodejs + Expressjs
 2. MongoDb
 3. Mongoose
 4. Angularjs

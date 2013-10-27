@@ -1,11 +1,12 @@
 {
-    "name": "start-nodejs",
-    "version": "0.0.1",
-    "dependencies": {
-        "express": "3",
-        "util" : "*",
-        "winston": "0.7.2",
-        "node-fs":"0.1.7",
-        "url": "0.7.9"
-    }
+  "name": "start-nodejs/chat",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "3.4.3",
+    "ejs": "*"
+  }
 }
