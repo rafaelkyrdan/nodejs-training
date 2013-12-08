@@ -9,6 +9,14 @@
     "express": "3.4.3",
     "ejs": "*",
     "nconf": "0.6.7",
-    "winston": "0.7.2"
+    "winston": "0.7.2",
+    "ejs-locals": "~1.0.2"
+  },
+  "devDependencies": {
+    "express": "3.4.3",
+    "ejs": "*",
+    "nconf": "0.6.7",
+    "winston": "0.7.2",
+    "ejs-locals": "~1.0.2"
   }
 }

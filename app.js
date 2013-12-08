@@ -10,7 +10,11 @@ var express = require('express'),
 
 // all environments
 //app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
+
+app.engine('ejs', require('ejs-locals'));
+//app.set('views', path.join(__dirname, 'views'));
+//app.set('views', path.join(__dirname, 'template'));
+app.set('views', __dirname + '/template');
 app.set('view engine', 'ejs');
 
 app.use(express.favicon());
@@ -37,11 +41,17 @@ http.createServer(app).listen(config.get('port'), function(){
   log.info('Express server listening on port ' + config.get('port'));
 });
 
-app.get('/', function (req, res) {
+//app.get('/', function (req, res) {
+//    res.render("index", {
+//        title: "Rafael",
+//        body: "<b>Hello</b>"
+//    })
+//});
+
+app.get('/', function(req, res, next) {
     res.render("index", {
-        title: "Rafael",
-        body: "<b>Hello</b>"
-    })
+
+    });
 });
 
 
