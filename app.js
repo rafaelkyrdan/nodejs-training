@@ -5,7 +5,9 @@ var express = require('express'),
     config = require("./conf"),
     log = require("./libs/log")(module),
     app = express(),
-    HttpError = require('error').HttpError;
+    HttpError = require('error').HttpError,
+    mongoose = require('libs/mongoose');
+    MongoStore = require('connect-mongo')(express);
 
 app.engine('ejs', require('ejs-locals'));
 app.set('views', __dirname + '/template');
@@ -20,8 +22,20 @@ if (app.get('env') == 'development') {
 app.use(express.favicon());
 app.use(express.logger({ immediate: true, format: 'dev' }));
 app.use(express.bodyParser());
-//app.use(express.methodOverride());
-app.use(express.cookieParser('your secret here'));
+app.use(express.cookieParser());
+
+app.use(express.session({
+    secret: config.get('session:secret'),
+    key: config.get('session:key'),
+    cookie: config.get('session:cookie'),
+    store: new MongoStore({mongoose_connection: mongoose.connection})
+}));
+
+app.use(function(req, res, next) {
+    req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
+    res.send("Visits: " + req.session.numberOfVisits);
+});
+
 app.use(require('middleware/sendHttpError'));
 app.use(app.router);
 require('routes')(app);
