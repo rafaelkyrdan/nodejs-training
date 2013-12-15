@@ -1,8 +1,35 @@
+var User = require('models/user').User;
+    HttpError = require('error').HttpError;
+    ObjectID = require('mongodb').ObjectID;
 
-/*
- * GET home page.
- */
+module.exports = function(app) {
 
-exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+    app.get('/', function(req, res, next) {
+        res.render("index");
+    });
+
+    app.get('/users', function(req, res, next) {
+        User.find({}, function(err, users) {
+            if (err) return next(err);
+            res.json(users);
+        })
+    });
+
+    app.get('/user/:id', function(req, res, next) {
+        try {
+            var id = new ObjectID(req.params.id);
+        } catch (e) {
+            next(404);
+            return;
+        }
+
+        User.findById(id, function(err, user) { // ObjectID
+            if (err) return next(err);
+            if (!user) {
+                return next(404);
+            }
+            res.json(user);
+        });
+    });
+
 };
