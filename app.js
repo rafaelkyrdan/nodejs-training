@@ -7,7 +7,8 @@ var express = require('express'),
     app = express(),
     HttpError = require('error').HttpError,
     mongoose = require('libs/mongoose');
-    MongoStore = require('connect-mongo')(express);
+    MongoStore = require('connect-mongo')(express),
+    sessionStore = require('libs/sessionStore');
 
 app.engine('ejs', require('ejs-locals'));
 app.set('views', __dirname + '/template');
@@ -28,7 +29,7 @@ app.use(express.session({
     secret: config.get('session:secret'),
     key: config.get('session:key'),
     cookie: config.get('session:cookie'),
-    store: new MongoStore({mongoose_connection: mongoose.connection})
+    store: sessionStore
 }));
 
 app.use(require('middleware/sendHttpError'));
@@ -56,6 +57,18 @@ app.use(function(err, req, res, next) {
     }
 });
 
-http.createServer(app).listen(config.get('port'), function(){
+var server = http.createServer(app).listen(config.get('port'), function(){
     log.info('Express server listening on port ' + config.get('port'));
 });
+
+var io = require('socket.io').listen(server);
+
+io.sockets.on('connection', function (socket) {
+    socket.on('message', function (text, cb) {
+        socket.broadcast.emit('message', text);
+        cb("123");
+    });
+});
+
+require('./socket')(server);
+app.set('io', io);
