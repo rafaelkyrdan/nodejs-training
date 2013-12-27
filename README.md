@@ -1,16 +1,10 @@
-#Start-nodejs
+#nodejs-training
 
-*About Application*
+*About*
 
-Project for self-education.
+Project for self-education. Done.
 The main goal learn more and organize knowledge about Nodejs.
-I'm going to pass online-course http://learn.javascript.ru/nodejs-screencast.
+I passed online-course http://learn.javascript.ru/nodejs-screencast.
 
-*What I use?*
-
-1. Nodejs
-2. Expressjs
-2. MongoDb
-3. Mongoose
 
 
